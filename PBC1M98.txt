@@ -1,0 +1,54 @@
+      *----------------------------------------------------------------*
+       IDENTIFICATION DIVISION.
+      *----------------------------------------------------------------*
+       PROGRAM-ID. PBC1M98.
+       AUTHOR. JAVIER BEUZON.
+      *
+      * Módulo calculadores euros-pesetas.
+      *----------------------------------------------------------------*
+       ENVIRONMENT DIVISION.
+      *----------------------------------------------------------------*
+       CONFIGURATION SECTION.
+       SPECIAL-NAMES.
+           DECIMAL-POINT IS COMMA.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+      *
+      *----------------------------------------------------------------*
+       DATA DIVISION.
+      *----------------------------------------------------------------*
+       FILE SECTION.
+       WORKING-STORAGE SECTION.
+       01 WS-WORKAREA.
+          05 CTE-NOMPGM                PIC X(7)      VALUE 'PBC1M98'.
+          05 COM-AREA.
+             10 COM-PESETAS            PIC 9(15)     VALUE SPACES.
+             10 COM-EUROS              PIC 9(13)V9(2) VALUE ZEROES.
+             10 COM-FLAG               PIC X(2)      VALUE SPACES.
+      *
+       LINKAGE SECTION.
+       01 LK-DATOS       PIC X(26).
+      *
+       PROCEDURE DIVISION USING LK-DATOS.
+           PERFORM INICIO
+           PERFORM PROCESO
+           PERFORM FIN
+           .
+
+       INICIO.
+           DISPLAY 'COMIENZA EL MODULO ' CTE-NOMPGM
+           MOVE LK-DATOS TO COM-AREA.
+
+       PROCESO.
+           DIVIDE COM-PESETAS BY 166,386 GIVING COM-EUROS
+                  ON SIZE ERROR MOVE 'KO' TO COM-FLAG
+           END-DIVIDE
+           .
+
+       FIN.
+           MOVE COM-AREA TO LK-DATOS
+           DISPLAY 'FIN DEL MODULO ' CTE-NOMPGM
+
+           GOBACK.
+
+
